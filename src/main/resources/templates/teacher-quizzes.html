@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Manage Quizzes</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark"><div class="container-fluid"><span class="navbar-brand">Quizzes</span><a href="/teacher/dashboard" class="btn btn-outline-light btn-sm">Back</a></div></nav>
+    <div class="container mt-4">
+        <div class="card shadow mb-4"><div class="card-body">
+            <h5>Create Quiz</h5>
+            <form action="/teacher/quizzes/create" method="post">
+                <input type="text" name="title" class="form-control mb-2" placeholder="Quiz Title" required>
+                <input type="text" name="question" class="form-control mb-2" placeholder="Question" required>
+                <div class="row mb-2">
+                    <div class="col"><input type="text" name="optionA" class="form-control" placeholder="Option A" required></div>
+                    <div class="col"><input type="text" name="optionB" class="form-control" placeholder="Option B" required></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col"><input type="text" name="optionC" class="form-control" placeholder="Option C" required></div>
+                    <div class="col"><input type="text" name="optionD" class="form-control" placeholder="Option D" required></div>
+                </div>
+                <select name="correctOption" class="form-control mb-2" required>
+                    <option value="">Select Correct Option</option>
+                    <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Post Quiz</button>
+            </form>
+        </div></div>
+        
+        <h5>Student Results</h5>
+        <table class="table table-bordered bg-white">
+            <thead class="table-dark"><tr><th>Student</th><th>Quiz</th><th>Score</th></tr></thead>
+            <tbody>
+                <tr th:each="r : ${results}">
+                    <td th:text="${r.student.username}"></td>
+                    <td th:text="${r.quiz.title}"></td>
+                    <td th:text="${r.score} + '%'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
