@@ -55,13 +55,14 @@ public class TeacherController {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null || !"TEACHER".equals(user.getRole())) return "redirect:/login";
 
-        try {
-            // Define the path to the uploads folder
-            String uploadDir = System.getProperty("user.dir") + "/uploads/";
-            
-            // Save the physical file
-            String fileName = file.getOriginalFilename();
-            Path filePath = Paths.get(uploadDir + fileName);
+		try {
+			// Define the path to the uploads folder
+			String uploadDir = System.getProperty("user.dir") + "/uploads/";
+			Files.createDirectories(Paths.get(uploadDir));
+
+			// Save the physical file
+			String fileName = Paths.get(file.getOriginalFilename()).getFileName().toString();
+			Path filePath = Paths.get(uploadDir).resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Save the record in the MySQL Database
